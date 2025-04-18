@@ -332,7 +332,7 @@ export default function Dashboard() {
                             />
                         </div>
 
-                        {/* ✅ ปุ่มโอนเงิน */}
+                        {/* ปุ่มโอนเงิน */}
                         <div>
                             <button className="confirm-button" onClick={handleTransfer}>✅ ยืนยันโอน</button>
                             <button className="cancel-button" onClick={() => setShowTransfer(false)}>ปิด</button>
