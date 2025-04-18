@@ -1,0 +1,126 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #00b4db, #0083b0);
+    color: white;
+  }
+  
+  .landing {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 50px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .nav-links a {
+    margin-left: 20px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s;
+  }
+  
+  .nav-links a:hover {
+    color: #ffd700;
+  }
+  
+  .hero {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+  }
+  
+  .hero h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+  }
+  
+  .hero p {
+    font-size: 20px;
+    max-width: 600px;
+  }
+  
+  .hero-buttons {
+    margin-top: 30px;
+  }
+  
+  .hero-buttons button {
+    padding: 12px 24px;
+    margin: 0 10px;
+    background-color: white;
+    color: #0083b0;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .hero-buttons button:hover {
+    background-color: #ffd700;
+    color: #000;
+  }
+
+  /* Dark Mode */
+.landing.dark {
+  background: linear-gradient(135deg, #1e1e1e, #0a0a0a);
+  color: #f0f0f0;
+}
+
+.landing.dark .navbar {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.landing.dark .nav-links a {
+  color: #eee;
+}
+
+.landing.dark .nav-links a:hover {
+  color: #ffb703;
+}
+
+.landing.dark .hero-buttons button {
+  background-color: #222;
+  color: #fff;
+}
+
+.landing.dark .hero-buttons button:hover {
+  background-color: #ffb703;
+  color: #000;
+}
+
+.toggle-dark {
+  background: none;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 10px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.landing.dark .toggle-dark {
+  border: 1px solid #ffb703;
+  color: #ffb703;
+}
+  
