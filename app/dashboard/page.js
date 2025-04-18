@@ -396,7 +396,7 @@ export default function Dashboard() {
                     <div className="modal-content statement" onClick={(e) => e.stopPropagation()}>
                         <h2>📄 รายการทั้งหมด</h2>
 
-                        {/* ✅ Filter UI */}
+                        {/* Filter UI */}
                         <div className="statement-filters">
                             <input
                                 type="date"
@@ -411,7 +411,7 @@ export default function Dashboard() {
                             </select>
                         </div>
 
-                        {/* 🔍 Filtered List */}
+                        {/* Filtered List */}
                         <ul className="statement-list">
                             {transactions
                                 .filter(t => {
