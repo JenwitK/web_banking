@@ -6,7 +6,7 @@ export async function GET() {
   const cookieStore = cookies();
   const userId = cookieStore.get('user_id')?.value;
 
-  console.log('🍪 userId from cookie:', userId); // Debug log
+  console.log('🍪 userId from cookie:', userId);
 
   if (!userId) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
@@ -15,7 +15,7 @@ export async function GET() {
   const { data: user, error } = await supabase
     .from('users')
     .select('first_name, last_name, balance, id, created_at')
-    .eq('id', Number(userId)) // ← ensure it's a number
+    .eq('id', Number(userId)) 
     .single();
 
   if (error || !user) {

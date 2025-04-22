@@ -9,7 +9,6 @@ export async function GET(req) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 
-  // ดึงชื่อกับยอดเงิน + username เพื่อใช้ตรวจเทียบจากธุรกรรม
   const { data: user, error: userError } = await supabase
     .from('users')
     .select('first_name, balance, username')
@@ -20,7 +19,6 @@ export async function GET(req) {
     return NextResponse.json({ message: 'ไม่พบผู้ใช้' }, { status: 404 });
   }
 
-  // ดึงธุรกรรมที่เกี่ยวข้อง พร้อมข้อมูลผู้เกี่ยวข้อง
   const { data: transactions, error: txError } = await supabase
     .from('transactions')
     .select(`

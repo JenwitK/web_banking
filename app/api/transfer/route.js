@@ -19,7 +19,6 @@ export async function POST(req) {
       return NextResponse.json({ message: 'ข้อมูลไม่ครบหรือจำนวนเงินไม่ถูกต้อง' }, { status: 400 });
     }
 
-    // 🔍 หา ID ของผู้รับ
     const { data: receiver, error: userError } = await supabase
       .from('users')
       .select('id')
@@ -36,7 +35,6 @@ export async function POST(req) {
       return NextResponse.json({ message: 'ไม่สามารถโอนให้ตัวเองได้' }, { status: 400 });
     }
 
-    // 💰 ตรวจสอบยอดเงินของผู้ส่ง
     const { data: senderData, error: senderError } = await supabase
       .from('users')
       .select('balance')
@@ -53,7 +51,6 @@ export async function POST(req) {
       return NextResponse.json({ message: 'ยอดเงินไม่เพียงพอ' }, { status: 400 });
     }
 
-    // ✅ อัปเดตยอดเงิน
     const { error: senderUpdateError } = await supabase
       .from('users')
       .update({ balance: senderBalance - amountNum })
@@ -78,7 +75,6 @@ export async function POST(req) {
       return NextResponse.json({ message: 'อัปเดตยอดเงินล้มเหลว' }, { status: 500 });
     }
 
-    // 🧾 บันทึกธุรกรรม
     const { error: transferLogError } = await supabase.from('transactions').insert([
       {
         from_user: userId,

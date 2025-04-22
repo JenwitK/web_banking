@@ -18,7 +18,6 @@ export async function POST(req) {
       return NextResponse.json({ message: 'กรอกข้อมูลให้ครบ' }, { status: 400 });
     }
 
-    // 🔎 ตรวจสอบ username ซ้ำ (ยกเว้นตัวเอง)
     const { data: existing, error: existError } = await supabase
       .from('users')
       .select('id')
@@ -35,7 +34,6 @@ export async function POST(req) {
       return NextResponse.json({ message: 'Username นี้มีผู้ใช้งานแล้ว' }, { status: 409 });
     }
 
-    // 🛠️ อัปเดตข้อมูล
     const { error: updateError } = await supabase
       .from('users')
       .update({
