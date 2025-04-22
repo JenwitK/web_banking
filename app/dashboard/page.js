@@ -220,23 +220,23 @@ export default function Dashboard() {
                         </div>
                     </div>
                     <div className="card">
-  <h3>Transfer Limit</h3>
-  <p className="amount">Limit daily</p>
+                        <h3>Transfer Limit</h3>
+                        <p className="amount">Limit daily</p>
 
-  <div className="limit-section-1">
-    <div className="limit-input-group-1">
-      <input type="number" value={dailyLimitAmount} readOnly />
-      <span className="unit">฿</span>
-    </div>
+                        <div className="limit-section-1">
+                            <div className="limit-input-group-1">
+                                <input type="number" value={dailyLimitAmount} readOnly />
+                                <span className="unit">฿</span>
+                            </div>
 
-    <div className="limit-input-group-1">
-      <input type="number" value={dailyLimitCount} readOnly />
-      <span className="unit">ครั้ง</span>
-    </div>
-  </div>
+                            <div className="limit-input-group-1">
+                                <input type="number" value={dailyLimitCount} readOnly />
+                                <span className="unit">ครั้ง</span>
+                            </div>
+                        </div>
 
-  <button onClick={() => setShowTransferLimit(true)}>Edit</button>
-</div>
+                        <button onClick={() => setShowTransferLimit(true)}>Edit</button>
+                    </div>
                 </div>
 
                 <div className="transactions">
@@ -247,14 +247,18 @@ export default function Dashboard() {
                         ) : (
                             transactions.map((t, i) => (
                                 <li key={i}>
-                                    <span>{t.type} {t.to_username ? `→ ${t.to_username}` : ''}</span>
-                                    <span>
-                                        {Number(t.amount) > 0
-                                            ? `+฿${Number(t.amount).toFixed(2)}`
-                                            : `-฿${Math.abs(Number(t.amount)).toFixed(2)}`}
-                                    </span>
+                                  <span>
+                                    {t.direction === 'out'
+                                      ? `โอนไป → ${t.counterparty}`
+                                      : `รับเงินจาก ← ${t.counterparty}`}
+                                  </span>
+                                  <span>
+                                    {Number(t.amount) > 0
+                                      ? `+฿${Number(t.amount).toFixed(2)}`
+                                      : `-฿${Math.abs(Number(t.amount)).toFixed(2)}`}
+                                  </span>
                                 </li>
-                            ))
+                              ))
                         )}
                     </ul>
                 </div>
@@ -338,10 +342,10 @@ export default function Dashboard() {
                             <button className="cancel-button" onClick={() => setShowTransfer(false)}>ปิด</button>
                         </div>
 
-                        
+
                         {limitWarning && <p className="transfer-message">{limitWarning}</p>}
 
-                        
+
                         {transferMsg && <p className="transfer-message">{transferMsg}</p>}
                     </div>
                 </div>

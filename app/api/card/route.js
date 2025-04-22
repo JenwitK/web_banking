@@ -1,25 +1,27 @@
-import { connectDB } from '@/lib/db';
 import { NextResponse } from 'next/server';
+import { supabase } from '@/lib/supabase';
+import { cookies } from 'next/headers';
 
-export async function GET(req) {
-  const cookie = req.cookies.get('user_id');
-  const userId = cookie?.value;
+export async function GET() {
+  const cookieStore = cookies();
+  const userId = cookieStore.get('user_id')?.value;
+
+  console.log('🍪 userId from cookie:', userId); // Debug log
 
   if (!userId) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 
-  const db = await connectDB();
-  const [rows] = await db.execute(
-    'SELECT first_name, last_name, balance, id, created_at FROM users WHERE id = ?',
-    [userId]
-  );
+  const { data: user, error } = await supabase
+    .from('users')
+    .select('first_name, last_name, balance, id, created_at')
+    .eq('id', Number(userId)) // ← ensure it's a number
+    .single();
 
-  if (rows.length === 0) {
+  if (error || !user) {
+    console.error('❌ ไม่พบผู้ใช้ หรือเกิด error:', error);
     return NextResponse.json({ message: 'ไม่พบผู้ใช้' }, { status: 404 });
   }
-
-  const user = rows[0];
 
   return NextResponse.json({
     cardName: 'MyBank Virtual Card',

@@ -1,6 +1,4 @@
-export const runtime = 'nodejs';
-
-import { connectDB } from '@/lib/db';
+import { supabase } from '@/lib/supabase';
 import { NextResponse } from 'next/server';
 
 export async function GET(req) {
@@ -12,17 +10,19 @@ export async function GET(req) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
-    const db = await connectDB();
-    const [rows] = await db.execute(
-      'SELECT first_name, last_name, username FROM users WHERE id = ?',
-      [userId]
-    );
 
-    if (rows.length === 0) {
+    const { data, error } = await supabase
+      .from('users')
+      .select('first_name, last_name, username')
+      .eq('id', userId)
+      .single();
+
+    if (error) {
+      console.error('❌ Supabase error:', error);
       return NextResponse.json({ message: 'ไม่พบผู้ใช้' }, { status: 404 });
     }
 
-    return NextResponse.json(rows[0]);
+    return NextResponse.json(data);
     
   } catch (err) {
     console.error('❌ GET USER ERROR:', err);

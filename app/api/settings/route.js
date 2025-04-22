@@ -1,7 +1,7 @@
 export const runtime = 'nodejs';
 
-import { connectDB } from '@/lib/db';
 import { NextResponse } from 'next/server';
+import { supabase } from '@/lib/supabase';
 
 export async function POST(req) {
   try {
@@ -18,21 +18,37 @@ export async function POST(req) {
       return NextResponse.json({ message: 'กรอกข้อมูลให้ครบ' }, { status: 400 });
     }
 
-    const db = await connectDB();
+    // 🔎 ตรวจสอบ username ซ้ำ (ยกเว้นตัวเอง)
+    const { data: existing, error: existError } = await supabase
+      .from('users')
+      .select('id')
+      .eq('username', username)
+      .neq('id', userId)
+      .maybeSingle();
 
-    const [existing] = await db.execute(
-      'SELECT id FROM users WHERE username = ? AND id != ?',
-      [username, userId]
-    );
+    if (existError) {
+      console.error('⚠️ Username check error:', existError);
+      return NextResponse.json({ message: 'ตรวจสอบ username ไม่สำเร็จ' }, { status: 500 });
+    }
 
-    if (existing.length > 0) {
+    if (existing) {
       return NextResponse.json({ message: 'Username นี้มีผู้ใช้งานแล้ว' }, { status: 409 });
     }
 
-    await db.execute(
-      'UPDATE users SET first_name = ?, last_name = ?, username = ? WHERE id = ?',
-      [firstName, lastName, username, userId]
-    );
+    // 🛠️ อัปเดตข้อมูล
+    const { error: updateError } = await supabase
+      .from('users')
+      .update({
+        first_name: firstName,
+        last_name: lastName,
+        username: username,
+      })
+      .eq('id', userId);
+
+    if (updateError) {
+      console.error('❌ UPDATE ERROR:', updateError);
+      return NextResponse.json({ message: 'เกิดข้อผิดพลาดขณะอัปเดตข้อมูล' }, { status: 500 });
+    }
 
     return NextResponse.json({ message: 'อัปเดตข้อมูลเรียบร้อยแล้ว ✅' });
 
