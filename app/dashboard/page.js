@@ -117,7 +117,7 @@ export default function Dashboard() {
         const todayTransfers = transactions.filter(
             t => t.type === 'transfer' && t.amount < 0 && new Date(t.created_at).toISOString().split('T')[0] === today
         );
-
+        
         const todayAmount = todayTransfers.reduce((acc, t) => acc + Math.abs(t.amount), 0);
         const todayCount = todayTransfers.length;
 
@@ -336,7 +336,7 @@ export default function Dashboard() {
                             />
                         </div>
 
-                        {/* ปุ่มโอนเงิน */}
+                        
                         <div>
                             <button className="confirm-button" onClick={handleTransfer}>✅ ยืนยันโอน</button>
                             <button className="cancel-button" onClick={() => setShowTransfer(false)}>ปิด</button>

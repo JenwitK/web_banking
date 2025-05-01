@@ -44,7 +44,7 @@ export default function LoginPage() {
             <button
                 className="back-button"
                 onClick={() => {
-                    window.location.assign('/'); //ไปหน้าแรกแบบ reload จริง
+                    window.location.assign('/'); //ไปหน้าแรกแบบ reload
                 }}
             >
                 ← กลับหน้าแรก
